@@ -85,7 +85,11 @@ useEffect(() => {
       console.log(code) ; 
 
       try {
-        const response = await fetch("http://localhost:3145/py_router/", {
+         let comp_router = "py_router/"
+         if(mode=="text/x-c++src") comp_router = "CPP_router/"
+         if(mode=="text/x-java") comp_router = "JAVA_router/"
+
+        const response = await fetch(`http://localhost:3145/${comp_router}`, {
           method: 'POST',
           body: JSON.stringify({
             code: code , 
