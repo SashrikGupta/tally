@@ -1,0 +1,57 @@
+.codeEditor {
+   display: flex;
+   font-family: 'Courier New', Courier, monospace;
+   background-color: #111111;
+   padding: 10px;
+   border-radius: 8px;
+ }
+ 
+ .lineNumbering {
+   display: flex;
+   flex-direction: column;
+   text-align: right;
+   color: #555555;
+   margin-right: 10px;
+ }
+ 
+ .lineNumbering span {
+   margin-bottom: 5px;
+ }
+ 
+ .codeBlock {
+   flex: 1;
+   white-space: pre-wrap;
+ }
+ 
+ .keyword {
+   color: rgb(212, 78, 212);
+ }
+ 
+ .className {
+   color: rgb(206, 245, 177);
+ }
+ 
+ .variable {
+   color: rgb(0, 255, 0);
+ }
+ 
+ .variableName {
+   color: aqua;
+ }
+ 
+ .value {
+   color: #FF7F50;
+ }
+ 
+ .dataType {
+   color: rgb(0, 255, 30);
+ }
+ 
+ .float {
+   color: aqua;
+ }
+ 
+ .lightgreen {
+   color: lightgreen;
+ }
+ 

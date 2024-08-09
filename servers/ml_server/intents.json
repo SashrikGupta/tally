@@ -1,0 +1,118 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hey :-)",
+        "Hello, thanks for visiting",
+        "Hi there, what can I do for you?",
+        "Hi there, how can I help?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye"],
+      "responses": [
+        "See you later, thanks for visiting",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ]
+    }
+    ,
+    {
+      "tag": "name",
+      "patterns": ["whats your name", "who are you", "what is codebot"],
+      "responses": [
+        "I am codebot  , your coding assistant explain any query regarding codeconnect",
+        "I am codebot , your personal assitant i can guide through the app ",
+        "wooo...  i am the code bot your ultimate code assistant , i will guide you through the app "
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "That's helpful", "Thank's a lot!"],
+      "responses": ["Happy to help! , but thank my creator sashrik", "Any time! but thank my creator sashrik", "My pleasure , but thank my creator sashrik"]
+    },
+    {
+      "tag": "about",
+      "patterns": [
+        "what is code connect",
+        "how to use code connect ",
+        "what are the features of code ocnnect"
+      ],
+      "responses": [
+        "We help in solving query and collaborative coding created by sashrik ",
+        "you can post / solve a query and can collboratively code created by sashrik "
+      ]
+    },
+    {
+      "tag": "login",
+      "patterns": [
+        "how to create account",
+        "how to sign in ",
+        "how to login in",
+        "how to use "
+      ],
+      "responses": [
+        "goto dash board and then click on create a new account after creation go to login with google at the end you should be able to see your profile at dashboard ",
+        "firstly , create a new account by clicking red button and then after creation login with google at the end you should be able to see your profile at dashboard "
+      ]
+    },
+    {
+      "tag": "question",
+      "patterns": [
+        "How to post a query ",
+        "How to solve a query",
+        "how to collaborate "
+      ],
+      "responses": [
+        "if you want to post query on query click post query and fill the appropriate detail in order to solve from query go to solve query and pick a query",
+        "for posting doubt : click on post query on query section at nav bar then code your question , for solving query : lick on post query on query section at nav bar then click the query you want to solve "
+      ]
+    } , 
+    {
+      "tag": "points",
+      "patterns": [
+        "how the points system works",
+        "explain points system ",
+        "how points get allocated to a user "
+      ],
+      "responses": [
+        "for posting the query the point of query gets deducted if your query gets solved , you get the half of the query points back and the solver gets double of that ",
+        " lets understand with an example if some one posts a quesy of lets say 50 points is that query gets solved the author gets 25 points back and solver gets 100 points"
+      ]
+    },
+    {
+      "tag": "collaborate",
+      "patterns": [
+        "how to code together",
+        "how to share the code",
+        "how to code collaboratively"
+      ],
+      "responses": [
+        "for any users trying to solve a problem their room id must be same",
+        "any person in same room id can code together"
+      ]
+    },
+    {
+      "tag": "solve",
+      "patterns": [
+        "how to solve a query",
+        "how can i solve ones query",
+        "how to solve question "
+      ],
+      "responses": [
+        "go to solve query section at query section pick any unsolved query and then see its details if you can solve the query click on solve and the room id will be emailed to you ",
+        "once you click solve on the detail page of a query a room id will be emailed you can code at the same room id to solve question"
+      ]
+    }
+  ]
+}

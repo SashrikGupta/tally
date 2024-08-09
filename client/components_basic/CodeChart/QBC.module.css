@@ -1,0 +1,37 @@
+
+
+progress[value] {
+   --color: aqua; 
+   --background: rgb(156, 222, 222); 
+ 
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+   border: none;
+   width: 90% ;
+   margin: auto ;
+   border-radius: 10em;
+   background: var(--background);
+ }
+ progress[value]::-webkit-progress-bar {
+   border-radius: 10em;
+   background: var(--background);
+ }
+ progress[value]::-webkit-progress-value {
+   border-radius: 10em;
+   background: var(--color);
+ }
+ progress[value]::-moz-progress-bar {
+   border-radius: 10em;
+   background: var(--color);
+ }
+ 
+ label {
+   font-size: 20px;
+   font-weight: bold;
+   display: block;
+   margin: 20px 0;
+ }
+ 
+ 
+ 
