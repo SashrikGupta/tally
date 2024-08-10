@@ -14,5 +14,6 @@ router.route('/getall')
 
 router.route('/solve')
       .post(controller.solve)
+      module.exports = router ;
 
 module.exports = router ;

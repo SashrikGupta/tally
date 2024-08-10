@@ -2,8 +2,9 @@ const morgan = require('morgan') ;
 const express = require('express');
 const cors = require('cors')
 const app = express();
+const contest_router = require('./routes/contest_router') ;
 const user_router = require('./routes/user_router') ;
-const query_router = require('./routes/query_router') ; ;
+const query_router = require('./routes/query_router') ; 
 const nodemailer = require('nodemailer');
 app.use(morgan('dev')) ;  
 app.use(express.json());
@@ -13,6 +14,7 @@ app.use(cors()) ;
 //     next() ; 
 // })
 // app.use('/api/v1/tours' , tour_router) ; 
+ app.use('/contest' , contest_router) ; 
  app.use('/query' , query_router ) ; 
  app.use('/' , user_router) 
 const auth = nodemailer.createTransport({
@@ -22,7 +24,10 @@ const auth = nodemailer.createTransport({
    auth: {
       user: "codeconnect.mail@gmail.com",
       pass: "edka lhlw sque qmgc"
-   }
+   },
+   tls: {
+      rejectUnauthorized: false
+    }
 });
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 

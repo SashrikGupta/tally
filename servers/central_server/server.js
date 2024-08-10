@@ -5,7 +5,7 @@ dotenv.config({path :'./config.env'}) ;
 const PORT = process.env.PORT  ;
 const db = process.env.DATABASE 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://sashrikgupta:NZCFR0A9BeIoyltn@cluster0.u0pqprx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const uri = "mongodb+srv://22bce315:tXYMXYZlQkq9RTFe@cluster0.modrs1h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 const moment = require('moment')
 
 mongoose

@@ -14,7 +14,6 @@ const contestSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user', // Reference to the User model
-        required: [true, 'A contest must have participants']
       }
     ],
     author: {

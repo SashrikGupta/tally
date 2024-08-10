@@ -20,7 +20,12 @@ import { useEffect  , useContext , createContext} from 'react';
 import Blog from '../components_basic/Blog/Blog';
 import Redirect from '../components_basic/Redirect/Redirect';
 import Chatbot from '../components_basic/Chatbot/Chatbot'
-
+import List from '../component_contest/Contest_list';
+import Add from '../component_contest/add_contest/add_contest';
+import Contest from '../component_contest/contest/contest';
+import Problem from '../component_contest/problem';
+import Rank from '../component_contest/rankings';
+import ProList from '../component_contest/problem_list/list';
 
 function App() {
   const now_config = useContext(curr_config) ; 
@@ -78,7 +83,13 @@ function App() {
            <Route path=   "/code"              element = { <Enter/>     } />
            <Route path=   "/room/:id"          element = { <Room/>      } /> 
            <Route path=   '/login'             element = { <Login/>     } />
-           <Route path=   '/blog'              element = { <Blog/>      } /> 
+           <Route path=   '/blog'              element = { <Blog/>      } />
+           <Route path=   '/contest_list'      element = { <List/>      } />
+           <Route path=   '/add_contest'       element = { <Add/>       } />
+           <Route path=   '/contest/:id'       element = { <Contest/>   } />
+           <Route path=   '/problem/:id'       element = { <Problem/>   } />
+           <Route path=   '/globalrank/:id'    element = { <Rank/>      } />
+           <Route path=   '/problem_list'      element = { <ProList/>   } />
           </Routes>
 
       </BG>

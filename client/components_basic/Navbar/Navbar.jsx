@@ -27,11 +27,11 @@ const Navbar = (props) => {
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   <Link to={`/${now_config.logged_in_userid}`} className="bg-gray-900 h-[4.5vh] my-1 flex items-center text-white rounded-md px-3 py-2 text-sm font-medium px-0" aria-current="page">Dashboard</Link>
-                  <Link to = "/code" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">code</Link>
-                  <Link to = "/con/con" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">connect</Link>
+                  <Link to = "/code" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">code 🧑‍💻</Link>
+                  <Link to = "/con/con" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">connect 🤝 </Link>
                   <div className="relative" onMouseLeave={closeDropdown}>
                     <button onClick={toggleDropdown} className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
-                      Queries
+                      Queries❓
                       <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 12a1 1 0 00-1 1v1a1 1 0 002 0v-1a1 1 0 00-1-1zM10 6a1 1 0 011 1v4a1 1 0 11-2 0V7a1 1 0 011-1z" clipRule="evenodd" />
                       </svg>
@@ -43,7 +43,9 @@ const Navbar = (props) => {
                       </div>
                     )}
                   </div>
-                  <Link to="/blog" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">blog</Link>
+                  <Link to="/contest_list" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Battle ⚔️</Link>
+                  <Link to="/problem_list" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Arena 🏃‍♂️‍➡️ </Link>
+                  <Link to="/blog" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">blog 💬</Link>
                 </div>
               </div>
             </div>

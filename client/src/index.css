@@ -30,3 +30,7 @@ body{
   background-color: #242424;
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+

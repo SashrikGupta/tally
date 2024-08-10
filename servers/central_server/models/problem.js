@@ -23,16 +23,6 @@ const problemSchema = new mongoose.Schema(
       required: [true, 'A problem must have a description'],
       trim: true
     },
-    sample_input: {
-      type: String,
-      required: [true, 'A problem must have a sample input'],
-      trim: true
-    },
-    sample_output: {
-      type: String,
-      required: [true, 'A problem must have a sample output'],
-      trim: true
-    },
     testcase_input: {
       type: [String], // Array of strings for multiple test case inputs
       default: []

@@ -43,7 +43,7 @@ const pyposthandel = (req, res) => {
             data.error = data.error.replace(/File ".*", line/g, 'Line');
         }
         res.send(data);
-        console.log(data);
+
         deleteTempFiles();
     });
 };
