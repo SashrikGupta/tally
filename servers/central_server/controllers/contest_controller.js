@@ -421,4 +421,84 @@ exports.createOrUpdateCode = async (req, res) => {
    }
  };
  
+ exports.getAllProblems = async (req, res) => {
+   try {
+     const problems = await Problem.find();
+     res.status(200).json({
+       status: 'SUCCESS',
+       data: {
+         problems,
+         message: 'Successfully fetched all problems',
+       },
+     });
+   } catch (error) {
+     console.error('Error in fetching problems:', error);
+     res.status(500).json({ status: 'FAILED', message: 'Internal Server Error' });
+   }
+ };
+
+ exports.getSolvedCodesByUser = async (req, res) => {
+   try {
+     const { userId } = req.params;
+      console.log(userId)
+
+
+     const codes = await Code.find({ user: userId, solve: true })
+       .populate('problem')  
+       .exec();
  
+     if (!codes.length) {
+       return res.status(404).json({ status: 'FAILED', message: 'No solved codes found for this user' });
+     }
+ 
+     res.status(200).json({
+       status: 'SUCCESS',
+       data: {
+         codes,
+         message: 'Solved codes successfully fetched',
+       },
+     });
+   } catch (error) {
+     console.error('Error in fetching solved codes:', error);
+     res.status(500).json({ status: 'FAILED', message: 'Internal Server Error' });
+   }
+ };
+
+
+exports.getProblemStatistics = async (req, res) => {
+   try {
+     const { userId } = req.params;
+ 
+
+     // Get total number of problems
+     const total= await Problem.countDocuments();
+ 
+     // Get the number of problems solved by difficulty
+     const solvedProblems = await Code.find({ user: userId, solve: true }).populate('problem').exec();
+     console.log(solvedProblems)
+     const difficultyCounts = {
+       Easy: 0,
+       Medium: 0,
+       Hard: 0,
+     };
+ 
+     solvedProblems.forEach(code => {
+       const difficulty = code.problem.tag;
+       if (difficultyCounts[difficulty] !== undefined) {
+         difficultyCounts[difficulty]++;
+       }
+     });
+ 
+     res.status(200).json({
+       status: 'SUCCESS',
+       data: {
+         total,
+         solved: difficultyCounts,
+         message: 'Problem statistics successfully fetched',
+       },
+     });
+   } catch (error) {
+     console.error('Error in fetching problem statistics:', error);
+     res.status(500).json({ status: 'FAILED', message: 'Internal Server Error' });
+   }
+ };

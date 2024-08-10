@@ -7,7 +7,10 @@ const {addProblem ,
        createResult ,
        createOrUpdateCode ,
        incrementResultPoints ,
-       getSortedParticipants} = require('../controllers/contest_controller') ; 
+       getSortedParticipants , 
+       getAllProblems , 
+       getSolvedCodesByUser , 
+       getProblemStatistics} = require('../controllers/contest_controller') ; 
 
 const router = express.Router() ; 
 
@@ -20,5 +23,8 @@ router.post('/createResult' , createResult)
 router.post('/check' , createOrUpdateCode)
 router.post('/addpoint' , incrementResultPoints)
 router.get('/rank/:contestId' , getSortedParticipants)
+router.get('/run/getall' , getAllProblems)
+router.get('/your/plist/:userId' , getSolvedCodesByUser)
+router.get('/your/stats/:userId' , getProblemStatistics )
 
 module.exports = router ;

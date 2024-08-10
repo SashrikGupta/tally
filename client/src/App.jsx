@@ -26,6 +26,7 @@ import Contest from '../component_contest/contest/contest';
 import Problem from '../component_contest/problem';
 import Rank from '../component_contest/rankings';
 import ProList from '../component_contest/problem_list/list';
+import Add_prob from '../component_contest/add_problem';
 
 function App() {
   const now_config = useContext(curr_config) ; 
@@ -90,6 +91,7 @@ function App() {
            <Route path=   '/problem/:id'       element = { <Problem/>   } />
            <Route path=   '/globalrank/:id'    element = { <Rank/>      } />
            <Route path=   '/problem_list'      element = { <ProList/>   } />
+           <Route path =  '/add_prob'          element = { <Add_prob/>  } />
           </Routes>
 
       </BG>
