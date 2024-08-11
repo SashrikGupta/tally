@@ -8,6 +8,7 @@ import QBC from '../CodeChart/QBC';
 import { useParams } from 'react-router-dom';
 import { curr_config } from '../../contexts/Conf';
 import { useNavigate } from 'react-router-dom';
+import Chatbot from '../Chatbot/Chatbot';
 function formating(dateString) {
   let dateObject = new Date(dateString);
   let formattedDate = dateObject.toISOString().split('T')[0];
@@ -485,7 +486,6 @@ function followhandler(){
             {/* ------------------------------------------------ */} 
             </div>
       {/* ------------------------------------------------------------------- */}
-
     </div>
   )
 }

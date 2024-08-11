@@ -43,7 +43,9 @@ export default function Room() {
   const [ed  , set_ed] = useState() ; 
   const [code , set_code] = useState() ; 
   const [ohm , set_ohm] = useState() ; 
-  const [allchat , set_all_chat] = useState([]) ; 
+  const [allchat , set_all_chat] = useState([]) ;
+  const [meteric_time , set_metric_time] = useState() ; 
+  const [metric_memory , set_metric_memory] = useState() ;  
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -73,8 +75,22 @@ useEffect(()=>{
 } , [bg])
 
 
+function handleLanguageChange(e){
+  const lang = e.target.value;
+  console.log(lang);
+  if(lang=='cpp') language_cpp() ; 
+  if(lang=='java') language_java() ;
+  if(lang=='python') language_python() ;
+}
 
+function handel_metric(){
+    const str = `
+    Time Usage : ${meteric_time}
+    Memory Usage : ${metric_memory}
+    `
 
+    document.getElementById('out2').value = str ;
+}
 
 
 
@@ -204,7 +220,11 @@ useEffect(() => {
       console.log(code) ; 
 
       try {
-        const response = await fetch("http://localhost:3145/py_router/", {
+        let comp_router = "py_router/"
+        if(mode=="text/x-c++src") comp_router = "CPP_router/"
+        if(mode=="text/x-java") comp_router = "JAVA_router/"
+
+       const response = await fetch(`http://localhost:3145/${comp_router}` , {
           method: 'POST',
           body: JSON.stringify({
             code: code , 
@@ -221,7 +241,13 @@ useEffect(() => {
 
         const data = await response.json();
         console.log(data);
-        const out = data.output ; 
+        let out = data.output
+        if(!out){
+          out = data.error 
+        }
+        console.log(out)
+        set_metric_time(data.metric.executionTime)
+        set_metric_memory(data.metric.memoryUsage)
         document.getElementById('out2').value = out ; 
 
       } catch (error) {
@@ -311,8 +337,20 @@ function solvehandler(){
          <Card w = '65vw' h = '33vh' mx = '3' mt='[2vh]' >
           <div className='h-[33vh] flex flex-col justify-around items-center'>
           <div className='h-[5vh] w-[63vw] flex justify-between'>
-            <input className='rounded-lg bg-white/10 text-[2vh] text-center w-[31vw]' placeholder = "enter a query id here "></input>
+            <div className='rounded-lg bg-white/10 text-[2vh] text-center w-[31vw]' >
+            {/* section k */}
+            <select 
+                className="rounded-lg bg-gray-700 text-white text-[2vh] p-[0.5vh] w-full" 
+                id="languageSelect" 
+                onChange={(e) => handleLanguageChange(e)}
+              >
+                <option value="cpp">C++</option>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+              </select>
+            </div>
             <span>
+            <button onClick = {()=>{handel_metric()}} className='btn btn-secondary text-[2vh] h-[5vh] w-[6vw] py-0' > metrics </button>
             <button onClick = {()=>{handel_run()}} className='btn btn-success text-[2vh] h-[5vh] w-[6vw] py-0' > run </button>
            <button  class="btn bg-[aqua] text-black text-[2vh] h-[5vh] w-[6vw] py-0" onClick = {solvehandler}>solved</button>
             </span>

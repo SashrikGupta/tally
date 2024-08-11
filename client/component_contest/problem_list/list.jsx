@@ -1,14 +1,16 @@
-import React, { useState, useEffect  , useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Card from '../../components_basic/Card/Card';
 import { Link } from 'react-router-dom';
 import { curr_config } from '../../contexts/Conf';
 
 export default function ProList() {
-   const { logged_in_userid } = useContext(curr_config);
+  const { logged_in_userid } = useContext(curr_config);
 
   const [loading, set_loading] = useState(false);
   const [problems, set_problems] = useState([]);
-  const [you , set_you] = useState() ; 
+  const [you, set_you] = useState();
+  const [selectedTag, setSelectedTag] = useState('All'); // Added state for selected tag
+
   useEffect(() => {
     (async () => {
       set_loading(true);
@@ -16,16 +18,14 @@ export default function ProList() {
       const data = await response.json();
       set_problems(data.data.problems);
       console.log(data.data);
-      if(logged_in_userid){
-         const response2 = await fetch(`http://localhost:1934/contest/your/plist/${logged_in_userid}`)
-         const data2 = await response2.json() ; 
-         const arr = data2.data.codes.map(element=>element.problem._id)
-         set_you(arr)
-         console.log(arr)
+      if (logged_in_userid) {
+        const response2 = await fetch(`http://localhost:1934/contest/your/plist/${logged_in_userid}`);
+        const data2 = await response2.json();
+        const arr = data2.data.codes.map(element => element.problem._id);
+        set_you(arr);
+        console.log(arr);
       }
-
       set_loading(false);
-
     })();
   }, [logged_in_userid]);
 
@@ -34,25 +34,31 @@ export default function ProList() {
     return words.length > 8 ? words.slice(0, 8).join(' ') + '...' : desc;
   };
 
-  // function to check wether elment is inside the you array
   const check = (element) => {
     return you?.includes(element);
   };
 
-
-
   const getTagColor = (tag) => {
-    switch(tag) {
+    switch (tag) {
       case 'Easy':
-        return 'text-green-500'; // Green color for Easy
+        return 'text-green-500';
       case 'Medium':
-        return 'text-yellow-500'; // Yellow color for Medium
+        return 'text-yellow-500';
       case 'Hard':
-        return 'text-red-500'; // Red color for Hard
+        return 'text-red-500';
       default:
-        return 'text-gray-500'; // Default color if no tag matches
+        return 'text-gray-500';
     }
   };
+
+  const handleTagFilter = (tag) => {
+    setSelectedTag(tag);
+  };
+
+
+  const filteredProblems = selectedTag === 'All'
+    ? problems
+    : problems.filter(problem => problem.tag === selectedTag);
 
   return (
     <div className='h-[90vh] w-[100vw] flex justify-around items-center'>
@@ -62,6 +68,33 @@ export default function ProList() {
             <div className='text-white text-center text-2xl'>Loading...</div>
           ) : (
             <div className='w-[60vw] h-[67vh]'>
+              {/* Filter Buttons */}
+              <div className='mb-4'>
+                <button
+                  onClick={() => handleTagFilter('All')}
+                  className={`px-4 py-2 mr-2 ${selectedTag === 'All' ? 'bg-blue-500 text-white rounded-lg' : ''}`}
+                >
+                  All
+                </button>
+                <button
+                  onClick={() => handleTagFilter('Easy')}
+                  className={`px-4 py-2 mr-2 ${selectedTag === 'Easy' ? 'bg-green-500 text-white rounded-lg' : ''}`}
+                >
+                  Easy
+                </button>
+                <button
+                  onClick={() => handleTagFilter('Medium')}
+                  className={`px-4 py-2 mr-2 ${selectedTag === 'Medium' ? 'bg-yellow-500 text-white rounded-lg' : ''}`}
+                >
+                  Medium
+                </button>
+                <button
+                  onClick={() => handleTagFilter('Hard')}
+                  className={`px-4 py-2 ${selectedTag === 'Hard' ? 'bg-red-500 text-white rounded-lg' : ''}`}
+                >
+                  Hard
+                </button>
+              </div>
               <table className='w-[60vw] text-white'>
                 <thead>
                   <tr className='bg-gray-700'>
@@ -75,9 +108,9 @@ export default function ProList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {problems.map((element, index) => (
+                  {filteredProblems.map((element, index) => (
                     <tr key={element._id} className='border-b border-gray-600'>
-                      <td className='px-4 py-2 '>{index + 1}</td>
+                      <td className='px-4 py-2'>{index + 1}</td>
                       <td className='px-4 py-2 text-[aqua]'>{element.name}</td>
                       <td className='px-4 py-2'>{truncateDescription(element.desc)}</td>
                       <td className={`px-4 py-2 ${getTagColor(element.tag)}`}>
@@ -89,15 +122,9 @@ export default function ProList() {
                           Attempt
                         </Link>
                       </td>
-                      <td className='px-4 py-2'>{
-                        
-                        check(element._id) ? (<>
-                        ✅
-                        </>):(<>
-                        🧑‍💻
-                        </>)
-                        
-                        }</td>
+                      <td className='px-4 py-2'>
+                        {check(element._id) ? '✅' : '🧑‍💻'}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

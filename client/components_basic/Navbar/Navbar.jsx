@@ -27,8 +27,8 @@ const Navbar = (props) => {
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   <Link to={`/${now_config.logged_in_userid}`} className="bg-gray-900 h-[4.5vh] my-1 flex items-center text-white rounded-md px-3 py-2 text-sm font-medium px-0" aria-current="page">Dashboard</Link>
-                  <Link to = "/code" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">code 🧑‍💻</Link>
-                  <Link to = "/con/con" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">connect 🤝 </Link>
+                  <Link to = "/code" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Playground 🧑‍💻</Link>
+                  <Link to = "/con/con" className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Connect 🤝 </Link>
                   <div className="relative" onMouseLeave={closeDropdown}>
                     <button onClick={toggleDropdown} className="text-gray-300 h-[4.5vh] my-1 flex items-center hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                       Queries❓

@@ -92,8 +92,9 @@ function App() {
            <Route path=   '/globalrank/:id'    element = { <Rank/>      } />
            <Route path=   '/problem_list'      element = { <ProList/>   } />
            <Route path =  '/add_prob'          element = { <Add_prob/>  } />
+  
           </Routes>
-
+    
       </BG>
       
 
