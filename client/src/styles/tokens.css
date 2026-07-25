@@ -1,0 +1,359 @@
+/*
+ * Design tokens — the single contract every component is built on.
+ *
+ * Three layers, in order:
+ *   1. Scale        — spacing, type, timing. Fixed.
+ *   2. Palette      — raw RGB triples, overridden per theme in themes.css.
+ *   3. Derived      — the tokens components actually consume. Composed from
+ *                     the palette plus the user knobs, so a single slider in
+ *                     Settings restyles every surface in the app at once.
+ *
+ * Palette entries are stored as bare `R G B` triples rather than hex so that
+ * every derived token can apply a user-controlled alpha channel. This is what
+ * makes the glass/translucency settings possible without per-theme work.
+ *
+ * Components reference derived tokens via the Tailwind aliases in
+ * tailwind.config.js — never a palette triple, and never a theme file directly.
+ */
+
+:root {
+  /* ==== 1. Scale ===================================================== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.5rem;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 400ms;
+
+  /* ==== 2. User knobs ================================================
+   * Written by SettingsContext from the Appearance panel. Every value here
+   * has a sane default so the app is fully usable before a user touches
+   * anything. Ranges are enforced in the Settings UI, not here. */
+
+  --ui-radius: 10px; /* base corner radius; the scale below derives from it */
+  --surface-alpha: 1; /* cards, panels, popovers */
+  --chrome-alpha: 1; /* title bar, activity rail, status bar */
+  --glass-blur: 0px; /* backdrop-filter blur on translucent surfaces */
+  --glass-saturate: 100%; /* backdrop-filter saturation lift */
+  --glow: 0; /* neon intensity, 0 (off) .. 1 (max) */
+  --shadow-strength: 1; /* multiplier on every elevation shadow */
+  --canvas-alpha: 1; /* app background opacity over the wallpaper */
+  --border-alpha: 1; /* border visibility */
+
+  /* Wallpaper layer */
+  --bg-image: none;
+  --bg-image-blur: 0px;
+  --bg-image-dim: 0.45;
+  --bg-image-saturate: 100%;
+  --bg-image-size: cover;
+
+  /* ==== 3. Palette — default theme (VS Code Dark+) ==================== */
+  --base-rgb: 30 30 30;
+  --elevated-rgb: 37 37 38;
+  --overlay-rgb: 45 45 48;
+  --inset-rgb: 24 24 24;
+
+  --titlebar-rgb: 50 50 51;
+  --rail-rgb: 44 44 44;
+  --panel-rgb: 37 37 38;
+  --statusbar-rgb: 0 122 204;
+
+  --fg-rgb: 212 212 212;
+  --fg-muted-rgb: 157 157 157;
+  --fg-subtle-rgb: 106 106 106;
+  --on-accent-rgb: 255 255 255;
+
+  --border-subtle-rgb: 60 60 60;
+  --border-rgb: 82 82 82;
+  --focus-rgb: 0 127 212;
+
+  --accent-rgb: 14 99 156;
+  --accent-hi-rgb: 62 166 255; /* the bright end of accent gradients + glows */
+  --success-rgb: 22 130 93;
+  --warning-rgb: 158 106 3;
+  --danger-rgb: 193 46 21;
+  --info-rgb: 55 148 255;
+
+  --easy-rgb: 63 185 80;
+  --medium-rgb: 210 153 34;
+  --hard-rgb: 248 81 73;
+
+  --shadow-rgb: 0 0 0;
+  --shadow-opacity: 1; /* scaled per light/dark theme */
+
+  color-scheme: dark;
+}
+
+/* ==== 3b. Derived tokens ==============================================
+ * `var()` substitution happens at use time on the element that owns the
+ * custom property, so these compose correctly against whichever palette a
+ * [data-theme] rule installed on the same <html> element. */
+
+:root {
+  --radius-sm: calc(var(--ui-radius) * 0.4);
+  --radius-md: calc(var(--ui-radius) * 0.65);
+  --radius-lg: var(--ui-radius);
+  --radius-xl: calc(var(--ui-radius) * 1.6);
+  --radius-full: 9999px;
+
+  /* Surfaces. `-solid` variants opt out of translucency for places where
+     content must stay legible (dropdown menus over text, code editors). */
+  --bg-base: rgb(var(--base-rgb) / var(--canvas-alpha));
+  --bg-base-solid: rgb(var(--base-rgb));
+  --bg-elevated: rgb(var(--elevated-rgb) / var(--surface-alpha));
+  --bg-elevated-solid: rgb(var(--elevated-rgb));
+  --bg-overlay: rgb(var(--overlay-rgb) / var(--surface-alpha));
+  --bg-overlay-solid: rgb(var(--overlay-rgb));
+  --bg-inset: rgb(var(--inset-rgb) / var(--surface-alpha));
+  --bg-inset-solid: rgb(var(--inset-rgb));
+
+  --titlebar-bg: rgb(var(--titlebar-rgb) / var(--chrome-alpha));
+  --rail-bg: rgb(var(--rail-rgb) / var(--chrome-alpha));
+  --panel-bg: rgb(var(--panel-rgb) / var(--surface-alpha));
+  --statusbar-bg: rgb(var(--statusbar-rgb) / var(--chrome-alpha));
+
+  --fg-default: rgb(var(--fg-rgb));
+  --fg-muted: rgb(var(--fg-muted-rgb));
+  --fg-subtle: rgb(var(--fg-subtle-rgb));
+  --fg-on-accent: rgb(var(--on-accent-rgb));
+
+  --border-subtle: rgb(var(--border-subtle-rgb) / var(--border-alpha));
+  --border-default: rgb(var(--border-rgb) / var(--border-alpha));
+  --border-focus: rgb(var(--focus-rgb));
+
+  --accent-bg: rgb(var(--accent-rgb));
+  --accent-fg: rgb(var(--on-accent-rgb));
+  --accent-border: rgb(var(--accent-hi-rgb));
+  --accent-soft: rgb(var(--accent-hi-rgb) / 0.14);
+
+  --success-bg: rgb(var(--success-rgb));
+  --success-fg: rgb(var(--on-accent-rgb));
+  --success-border: rgb(var(--success-rgb) / 0.9);
+  --success-soft: rgb(var(--success-rgb) / 0.16);
+
+  --warning-bg: rgb(var(--warning-rgb));
+  --warning-fg: rgb(var(--on-accent-rgb));
+  --warning-border: rgb(var(--warning-rgb) / 0.9);
+  --warning-soft: rgb(var(--warning-rgb) / 0.16);
+
+  --danger-bg: rgb(var(--danger-rgb));
+  --danger-fg: rgb(var(--on-accent-rgb));
+  --danger-border: rgb(var(--danger-rgb) / 0.9);
+  --danger-soft: rgb(var(--danger-rgb) / 0.16);
+
+  --info-bg: rgb(var(--info-rgb));
+  --info-fg: rgb(var(--on-accent-rgb));
+  --info-border: rgb(var(--info-rgb) / 0.9);
+  --info-soft: rgb(var(--info-rgb) / 0.16);
+
+  --easy: rgb(var(--easy-rgb));
+  --medium: rgb(var(--medium-rgb));
+  --hard: rgb(var(--hard-rgb));
+
+  /* Glass — the composite used by every translucent surface. */
+  --glass-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  --glass-sheen: linear-gradient(
+    145deg,
+    rgb(255 255 255 / 0.06) 0%,
+    rgb(255 255 255 / 0.015) 38%,
+    rgb(255 255 255 / 0) 70%
+  );
+
+  /* Elevation. Every shadow scales with --shadow-strength so "flat" and
+     "dramatic" are one slider apart. */
+  --shadow-sm: 0 1px 2px rgb(var(--shadow-rgb) / calc(0.3 * var(--shadow-opacity) * var(--shadow-strength)));
+  --shadow-md: 0 4px 14px rgb(var(--shadow-rgb) / calc(0.34 * var(--shadow-opacity) * var(--shadow-strength)));
+  --shadow-lg: 0 14px 38px rgb(var(--shadow-rgb) / calc(0.42 * var(--shadow-opacity) * var(--shadow-strength)));
+  --shadow-overlay: 0 18px 48px rgb(var(--shadow-rgb) / calc(0.52 * var(--shadow-opacity) * var(--shadow-strength)));
+
+  /* Neon. At --glow: 0 these collapse to `none`-equivalent transparency, so
+     components can apply them unconditionally. */
+  --glow-accent: 0 0 calc(18px * var(--glow)) rgb(var(--accent-hi-rgb) / calc(0.5 * var(--glow))),
+    0 0 calc(46px * var(--glow)) rgb(var(--accent-hi-rgb) / calc(0.24 * var(--glow)));
+  --glow-accent-sm: 0 0 calc(10px * var(--glow)) rgb(var(--accent-hi-rgb) / calc(0.45 * var(--glow)));
+  --glow-danger: 0 0 calc(18px * var(--glow)) rgb(var(--danger-rgb) / calc(0.5 * var(--glow)));
+  --glow-success: 0 0 calc(18px * var(--glow)) rgb(var(--success-rgb) / calc(0.5 * var(--glow)));
+  --text-glow: 0 0 calc(14px * var(--glow)) rgb(var(--accent-hi-rgb) / calc(0.55 * var(--glow)));
+}
+
+/* ==== Reset + document ============================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: rgb(var(--base-rgb));
+  color: var(--fg-default);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(var(--accent-hi-rgb) / 0.35);
+}
+
+/* ==== Wallpaper layer ===============================================
+ * A fixed element behind the whole shell. Rendered by AppShell so the
+ * filters compose without affecting any content. */
+
+.app-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--bg-image);
+  background-size: var(--bg-image-size);
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(var(--bg-image-blur)) saturate(var(--bg-image-saturate));
+  /* Blur samples transparent pixels past the edge; scale up to hide it. */
+  transform: scale(1.08);
+}
+
+.app-backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgb(var(--base-rgb) / var(--bg-image-dim));
+}
+
+/* Ambient accent wash — the soft coloured bloom behind the shell. Present
+   at every glow level above zero, independent of the wallpaper. */
+.app-aurora {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--glow);
+  background:
+    radial-gradient(60rem 40rem at 12% -10%, rgb(var(--accent-hi-rgb) / 0.16), transparent 60%),
+    radial-gradient(50rem 34rem at 105% 8%, rgb(var(--info-rgb) / 0.12), transparent 62%),
+    radial-gradient(46rem 34rem at 50% 118%, rgb(var(--accent-rgb) / 0.14), transparent 60%);
+}
+
+/* ==== Utilities ===================================================== */
+
+/* The one class that makes a surface glass. Applied by Card/Panel/chrome so
+   translucency + blur + sheen never drift apart between components. */
+.glass {
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+}
+
+.glass-sheen {
+  position: relative;
+  isolation: isolate;
+}
+
+.glass-sheen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--glass-sheen);
+  opacity: var(--surface-alpha);
+  pointer-events: none;
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, rgb(var(--fg-rgb)), rgb(var(--accent-hi-rgb)) 55%, rgb(var(--info-rgb)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.themed-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--border-rgb)) transparent;
+}
+.themed-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.themed-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(var(--border-rgb) / 0.8);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.themed-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--fg-subtle-rgb) / 0.9);
+  background-clip: content-box;
+}
+.themed-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ==== Density ======================================================= */
+
+[data-density='compact'] {
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 12px;
+}
+
+/* ==== Motion ========================================================
+ * The Settings toggle sets .reduce-motion; the media query covers users who
+ * asked the OS. Both must also neutralise the entrance animations below. */
+
+.reduce-motion,
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

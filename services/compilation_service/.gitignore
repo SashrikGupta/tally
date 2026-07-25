@@ -1,0 +1,13 @@
+config.env
+.env
+.env.*
+!.env.example
+node_modules
+
+# Artifacts written by a run — these must never be committed. Per-request
+# runs now live in a unique temp directory (see runner.js) and are deleted
+# after each run, but this guards against anything that slips through.
+*.class
+*.exe
+*.out
+tmp-runs/

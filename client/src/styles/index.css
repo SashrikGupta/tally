@@ -1,0 +1,219 @@
+/* @import has to precede every other statement, so the token and theme layers
+   load before Tailwind's — which is also the order we want cascade-wise:
+   Tailwind utilities should win over the base classes defined in tokens.css. */
+@import './tokens.css';
+@import './themes.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+    letter-spacing: -0.011em;
+  }
+
+  h1 {
+    letter-spacing: -0.022em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  a {
+    color: inherit;
+  }
+
+  /* Range inputs are used throughout Settings; the native control ignores
+     every colour token unless styled explicitly, per-vendor. */
+  input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: rgb(var(--border-rgb) / 0.7);
+    cursor: pointer;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 14px;
+    width: 14px;
+    border-radius: var(--radius-full);
+    background: rgb(var(--accent-hi-rgb));
+    box-shadow: var(--glow-accent-sm);
+    border: none;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  input[type='range']::-webkit-slider-thumb:hover {
+    transform: scale(1.18);
+  }
+
+  input[type='range']::-moz-range-thumb {
+    height: 14px;
+    width: 14px;
+    border: none;
+    border-radius: var(--radius-full);
+    background: rgb(var(--accent-hi-rgb));
+  }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    accent-color: rgb(var(--accent-hi-rgb));
+  }
+}
+
+/* ==== Motion library ================================================
+ * Entrance animations used by page and list components. Each is a single
+ * short transform+fade; anything longer reads as sluggish on repeat visits.
+ * All are neutralised by .reduce-motion (see tokens.css). */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -180% 0;
+  }
+  to {
+    background-position: 180% 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -2%, 0) scale(1.06);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in var(--dur-base) var(--ease-out) both;
+}
+.animate-rise-in {
+  animation: rise-in var(--dur-slow) var(--ease-out) both;
+}
+.animate-scale-in {
+  animation: scale-in var(--dur-base) var(--ease-out) both;
+}
+.animate-slide-in-right {
+  animation: slide-in-right var(--dur-base) var(--ease-out) both;
+}
+
+/* Staggered list entrances. Capped at 10 so a 500-row table doesn't spend
+   five seconds animating in. */
+.stagger > * {
+  animation: rise-in var(--dur-slow) var(--ease-out) both;
+}
+.stagger > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+.stagger > *:nth-child(2) {
+  animation-delay: 35ms;
+}
+.stagger > *:nth-child(3) {
+  animation-delay: 70ms;
+}
+.stagger > *:nth-child(4) {
+  animation-delay: 105ms;
+}
+.stagger > *:nth-child(5) {
+  animation-delay: 140ms;
+}
+.stagger > *:nth-child(6) {
+  animation-delay: 175ms;
+}
+.stagger > *:nth-child(7) {
+  animation-delay: 210ms;
+}
+.stagger > *:nth-child(8) {
+  animation-delay: 245ms;
+}
+.stagger > *:nth-child(9) {
+  animation-delay: 280ms;
+}
+.stagger > *:nth-child(n + 10) {
+  animation-delay: 315ms;
+}
+
+.app-aurora {
+  animation: drift 24s ease-in-out infinite;
+}
